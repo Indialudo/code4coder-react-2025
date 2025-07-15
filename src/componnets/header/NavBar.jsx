@@ -23,6 +23,7 @@ import FeatureMain from "../Home/features/FeatureMain";
 import PartnerMain from "../Home/Partner/PartnerMain";
 import TestimonialMain from "../Home/testimonial/TestimonialMain";
 import AboutMain from "../Home/about/AboutMain";
+import { FaClipboardList } from "react-icons/fa6";
 // import Logo from "./topsection/Logo"; // Make sure this file exists at this path
 
 const Navbar = () => {
@@ -38,6 +39,7 @@ const Navbar = () => {
 
   const links = [
     { text: "Home", href: "/", Icon: FaHome },
+    { text: "Free Quiz", href: "/quiz", Icon: FaClipboardList },
     { text: "courses", href: "/courses", Icon: FaBook },
     { text: "placement", href: "/placement", Icon: FaBullseye },
     { text: "interview", href: "/interview", Icon: FaMicrophoneAlt },

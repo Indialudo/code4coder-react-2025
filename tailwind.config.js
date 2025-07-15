@@ -13,13 +13,6 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-
-        backgroundDesktopDark: "url('./public/quizImg/pattern-background-desktop-dark.svg')",
-        backgroundDesktopLight: "url('./public/quizImg/pattern-background-desktop-light.svg')",
-        backgroundMobileDark: "url('./public/quizImg/pattern-background-mobile-dark.svg')",
-        backgroundMobileLight: "url('./public/quizImg/pattern-background-mobile-light.svg')",
-        backgroundTabletDark: "url('./public/quizImg/pattern-background-tablet-dark.svg')",
-        backgroundTabletLight: "url('./public/quizImg/pattern-background-tablet-light.svg')",
       },
       colors: {
         'darkyellow': '#ff8c00',

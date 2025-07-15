@@ -3,6 +3,8 @@ import quizdata from "../quizdata.json";
 import QuizNavbar from "../QuizNavbar/QuizNavbar";
 import QuizMainLayout from "../QuizMainLayout/QuizMainLayout";
 import QuizPage from "../QuizPage/QuizPage";
+import Navbar from "../../../componnets/header/NavBar";
+import Footer from "../../../componnets/footer/Footer";
 
 function MainQuiz() {
   const quizzes = quizdata.quizzes;
@@ -49,20 +51,27 @@ function MainQuiz() {
 
   return (
     <>
-      <QuizNavbar
-        themeMode={themeMode}
-        setThemeMode={setThemeMode}
-        handleThemeMode={handleThemeMode}
-        title={quizData.title}
-        icon={quizData.icon}
-        iconbg={quizData.iconbg}
-      />
+      <Navbar />
+      <div className="mx-6 sm:mx-12 lg:mx-32 ">
+        <QuizNavbar
+          themeMode={themeMode}
+          setThemeMode={setThemeMode}
+          handleThemeMode={handleThemeMode}
+          title={quizData.title}
+          icon={quizData.icon}
+          iconbg={quizData.iconbg}
+        />
 
-      {!isQuizStarted ? (
-        <QuizMainLayout quizzes={quizzes} setQuizData={handleStartQuiz} />
-      ) : (
-        <QuizPage quizData={quizData} onRestart={handleRestart} />
-      )}
+        <main className="flex-1 mx-6 sm:mx-12 lg:mx-32">
+          {!isQuizStarted ? (
+            <QuizMainLayout quizzes={quizzes} setQuizData={handleStartQuiz} />
+          ) : (
+            <QuizPage quizData={quizData} onRestart={handleRestart} />
+          )}
+        </main>
+
+      </div>
+      <Footer />
     </>
   );
 }

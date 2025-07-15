@@ -21,6 +21,7 @@ const QuizNavbar = ({
 
   return (
     <nav className="flex h-[72px] items-center justify-between px-6 sm:p-16 xl:w-full xl:px-0 xl:py-20">
+    {/* // <nav className="flex h-[56px] items-center justify-between px-4 sm:px-10 xl:w-full xl:px-0 xl:py-12"> */}
       {title && icon && iconbg ? (
         <section className="flex items-center justify-start gap-4 sm:gap-6">
           <div
