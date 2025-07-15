@@ -1,0 +1,76 @@
+import React from "react";
+
+const CourseSection = () => {
+  return (
+    <section className="text-gray-600 body-font box-border bg-gray-50 overflow-x-hidden">
+      <div className="container md:px-5 px-2 py-24 max-w-7xl mx-auto">
+        <div className="flex flex-col text-center w-full mb-20">
+          <h3 className="text-2xl lg:text-5xl md:text-4xl sm:text-3xl font-bold title-font mb-4 text-gray-900 capitalize">
+            Our Popular courses
+          </h3>
+          <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
+            Our job-oriented IT courses in Kolkata are designed for developing
+            an excellent path for the students. Webskitters Academy offers
+            Complete Placement Assistance on these popular courses. Check it
+            out!
+          </p>
+        </div>
+        <div className="flex flex-wrap">
+          {/* Team Member 1 */}
+          <div className="sm:px-4 py-4 lg:w-1/3 md:w-1/2 ">
+            <div className="h-full flex flex-col items-center text-start border-2 rounded-lg">
+                <div className="w-full rounded-t-lg h-56 bg-gray-400 mb-3">
+
+                </div>
+              <div className="w-full px-3">
+                <h2 className="title-font font-medium text-lg text-gray-900 mb-3">
+                 MERN Stack Development Course
+                </h2>
+                <p className="mb-4">
+                 Webskitters Academy offers the best MERN Stack Full Course in Kolkata. Learn from the leading industry…
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="sm:px-4 py-4 lg:w-1/3 md:w-1/2 ">
+            <div className="h-full flex flex-col items-center text-start border-2 rounded-lg">
+              <img
+                alt="team"
+                className="flex-shrink-0 rounded-t-lg w-full h-56 object-cover object-center mb-4"
+                src="https://dummyimage.com/200x200"
+              />
+              <div className="w-full px-3">
+                <h2 className="title-font font-medium text-lg text-gray-900 mb-3">
+                 MERN Stack Development Course
+                </h2>
+                <p className="mb-4">
+                 Webskitters Academy offers the best MERN Stack Full Course in Kolkata. Learn from the leading industry…
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="sm:px-4 py-4 lg:w-1/3 md:w-1/2 ">
+            <div className="h-full flex flex-col items-center text-start border-2 rounded-lg">
+              <img
+                alt="team"
+                className="flex-shrink-0 rounded-t-lg w-full h-56 object-cover object-center mb-4"
+                src="https://dummyimage.com/200x200"
+              />
+              <div className="w-full px-3">
+                <h2 className="title-font font-medium text-lg text-gray-900 mb-3">
+                 MERN Stack Development Course
+                </h2>
+                <p className="mb-4">
+                 Webskitters Academy offers the best MERN Stack Full Course in Kolkata. Learn from the leading industry…
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* Repeat the structure for other team members */}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default CourseSection;

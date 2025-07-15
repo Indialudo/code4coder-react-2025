@@ -1,0 +1,39 @@
+/* YourComponent.module.css */
+
+.marqueeContainer {
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .marquee {
+    display: flex;
+    white-space: nowrap;
+    animation: marqueeAnimation var(--duration, 100s) linear infinite;
+  }
+  
+  .marquee1 {
+    display: flex;
+    white-space: nowrap;
+    animation: marqueeAnimationReverse var(--duration, 70s) linear infinite;
+  }
+  
+  @keyframes marqueeAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  @keyframes marqueeAnimationReverse {
+    0% {
+      transform: translateX(0); /* Updated to translateX(100%) */
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  

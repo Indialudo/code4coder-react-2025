@@ -1,0 +1,298 @@
+:root {
+  --ruler: 16px;
+  --color-red: #AE1100;
+  --color-bg: #F5F7FA;
+  --color-shadow: #BABECC;
+  --color-white: #FFFFFF;
+  --color-primary: #FF8800;
+  --color-success: #4caf50;
+  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(to bottom right, #dfe9f3, #ffffff);
+  margin: 0;
+  padding: 0;
+}
+
+.add-back-image-ogg-img {
+  margin-top: 80px;
+  padding: 20px;
+  background: linear-gradient(to right, #f8fbff, #e6f0ff);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.formsssssssss {
+  padding: var(--ruler);
+  display: flex;
+  flex-direction: column;
+}
+
+.register-button-join-djebde-header {
+  background-color: var(--color-primary);
+  color: #fff;
+  margin: 5px 0 20px;
+  height: 60px;
+  font-size: 22px;
+  text-align: center;
+  padding-top: 15px;
+  font-weight: bold;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.inputssppss,
+select {
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: var(--color-white);
+  box-shadow: inset 2px 2px 5px var(--color-shadow), inset -5px -5px 10px var(--color-white);
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.inputssppss:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 136, 0, 0.3);
+}
+
+.buttons {
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttons:hover {
+  background-color: #e67300;
+  transform: translateY(-2px);
+}
+
+.buttons:active {
+  transform: translateY(0);
+  box-shadow: inset 1px 1px 2px var(--color-shadow), inset -1px -1px 2px var(--color-white);
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--color-success);
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in-out;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  position: relative;
+  max-width: 500px;
+  width: 90%;
+  margin-top: 20px;
+}
+
+.popup-close {
+  position: absolute;
+   top: 13px;
+    right: 15px;
+  background-color: #ff4d4d;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.popup-close:hover {
+  background-color: #e60000;
+  transform: scale(1.1);
+}
+
+/* Mobile & Tablet Optimizations */
+@media (max-width: 768px) {
+  .popup-content {
+    padding: 1.5rem;
+    margin-top: 30px;
+    width: 95%;
+    max-width: 95%;
+  }
+
+  .popup-close {
+    top: 3px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+  }
+
+  .register-button-join-djebde-header {
+    font-size: 20px;
+    padding-top: 12px;
+    height: 55px;
+  }
+
+  .inputssppss,
+  select {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .buttons {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.submit-btn svg {
+  font-size: 1.1rem;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ffffff;
+  border-top: 3px solid #ff8800;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.submit-btn svg {
+  font-size: 1.1rem;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ffffff;
+  border-top: 3px solid #ff8800;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+@media (max-width: 480px) {
+  .popup-content {
+    padding: 1.25rem;
+    margin-top: 40px;
+    border-radius: 8px;
+  }
+
+  .popup-close {
+    top: 5px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .register-button-join-djebde-header {
+    font-size: 18px;
+    height: 50px;
+    padding-top: 10px;
+  }
+
+  .inputssppss,
+  select {
+    font-size: 14px;
+    padding: 9px;
+  }
+
+  .buttons {
+    font-size: 15px;
+    padding: 9px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

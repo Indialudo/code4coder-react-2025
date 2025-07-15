@@ -1,0 +1,209 @@
+:root {
+  --ruler: 16px;
+  --color-red: #AE1100;
+  --color-bg: #F5F7FA;
+  --color-shadow: #BABECC;
+  --color-white: #FFFFFF;
+  --color-primary: #FF8800;
+  --color-success: #4caf50;
+  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(to bottom right, #dfe9f3, #ffffff);
+  margin: 0;
+  padding: 0;
+}
+
+.video-form-wrapper {
+  position: relative;
+  height: 700px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.6); /* Optional: dark overlay for readability */
+}
+
+.add-back-image-ogg-img {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #f8fbff, #e6f0ff);
+}
+
+.formsssssssss {
+  padding: var(--ruler);
+  display: flex;
+  flex-direction: column;
+}
+
+.register-button-join-djebde-header {
+  background-color: var(--color-primary);
+  color: #fff;
+  margin: 5px 0 20px;
+  height: 60px;
+  font-size: 22px;
+  text-align: center;
+  padding-top: 15px;
+  font-weight: bold;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.inputssppss,
+select {
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: var(--color-white);
+  box-shadow: inset 2px 2px 5px var(--color-shadow), inset -5px -5px 10px var(--color-white);
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.inputssppss:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 136, 0, 0.3);
+}
+
+.buttons {
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttons:hover {
+  background-color: #e67300;
+  transform: translateY(-2px);
+}
+
+.buttons:active {
+  transform: translateY(0);
+  box-shadow: inset 1px 1px 2px var(--color-shadow), inset -1px -1px 2px var(--color-white);
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--color-success);
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in-out;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+/* =====================
+   Responsive for Tablets
+===================== */
+@media (max-width: 768px) {
+  .add-back-image-ogg-img {
+    max-width: 90%;
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .video-form-wrapper {
+    height: auto;
+    padding: 30px 20px;
+  }
+
+  .background-video {
+    height: 100%;
+    min-height: 600px;
+    object-fit: cover;
+  }
+
+  .formsssssssss {
+    padding: 16px;
+  }
+
+  .register-button-join-djebde-header {
+    font-size: 20px;
+    height: auto;
+    padding: 14px;
+  }
+
+  .inputssppss,
+  select {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .buttons {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+/* =====================
+   Responsive for Mobiles
+===================== */
+@media (max-width: 480px) {
+  .add-back-image-ogg-img {
+    max-width: 95%;
+    padding: 16px;
+    margin: 20px auto;
+  }
+
+  .video-form-wrapper {
+    padding: 20px 10px;
+  }
+
+  .register-button-join-djebde-header h1 {
+    font-size: 18px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

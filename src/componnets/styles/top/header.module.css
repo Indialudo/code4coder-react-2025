@@ -1,0 +1,14 @@
+.logoname{
+    margin-left: 5px;
+    color: orange;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.fullNobileSizeHeightHumberger{
+    height: 100vh;
+}
+.mobileNumberTop{
+    color: red !important;
+    font-weight: bold;
+}

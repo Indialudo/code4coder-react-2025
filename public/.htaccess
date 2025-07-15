@@ -1,0 +1,10 @@
+# Disable directory listing
+Options -Indexes
+
+# Set default index file
+DirectoryIndex index.html
+
+# Rewrite rule for handling clean URLs
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+)/?$ $1.html [L]
