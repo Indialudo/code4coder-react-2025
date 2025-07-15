@@ -51,7 +51,7 @@ const QuizNavbar = ({
         )}
 
         <div
-          className="h-5 w-8 cursor-pointer rounded-full bg-purple p-1 sm:h-7 sm:w-12"
+          className="h-5 w-8 cursor-pointer rounded-full bg-purples p-1 sm:h-7 sm:w-12"
           onClick={handleThemeMode}
         >
           <div

@@ -65,7 +65,7 @@ const QuizPage = ({ quizData }) => {
             </div>
             <div className="mt-6 flex h-4 w-full items-center justify-start rounded-full bg-white px-1 dark:bg-navy xl:w-[465px]">
               <span
-                className="h-2 rounded-[104px] bg-purple"
+                className="h-2 rounded-[104px] bg-purples"
                 style={{ width: `${progressBar}%` }}
               ></span>
             </div>
@@ -110,7 +110,7 @@ const QuizPage = ({ quizData }) => {
                           ? `flex h-10 w-10 items-center justify-center rounded-md text-[18px] uppercase text-greyNavy sm:h-14 sm:w-14 sm:rounded-xl sm:text-[28px] ${bgColor}`
                           : `flex h-10 w-10 items-center justify-center rounded-md bg-lightGrey text-[18px] uppercase text-greyNavy group-hover:bg-[#F6E7FF] group-hover:text-purple sm:h-14 sm:w-14 sm:rounded-xl sm:text-[28px] ${
                               isSelected
-                                ? "bg-purple text-white group-hover:bg-purple group-hover:text-white"
+                                ? "bg-purples text-white group-hover:bg-purples group-hover:text-white"
                                 : "bg-lightGrey"
                             }`
                       }
@@ -151,14 +151,14 @@ const QuizPage = ({ quizData }) => {
             {!showNextQuestion ? (
               <button
                 className="bg-['linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), #a729f5'] hover:bg-btnHover h-14
-                  w-full rounded-xl bg-purple py-2 text-xs font-semibold text-white transition-all duration-200 ease-in-out sm:h-[92px] sm:rounded-3xl sm:text-[28px] xl:w-[564px]"
+                  w-full rounded-xl bg-purples py-2 text-xs font-semibold text-white transition-all duration-200 ease-in-out sm:h-[92px] sm:rounded-3xl sm:text-[28px] xl:w-[564px]"
                 onClick={handleSubmit}
               >
                 Submit Answer
               </button>
             ) : (
               <button
-                className="hover:bg-btnHover h-14 w-full rounded-xl bg-purple py-2 text-xs font-semibold text-white transition-all duration-200 ease-in-out sm:h-[92px] sm:rounded-3xl sm:text-[28px]"
+                className="hover:bg-btnHover h-14 w-full rounded-xl bg-purples py-2 text-xs font-semibold text-white transition-all duration-200 ease-in-out sm:h-[92px] sm:rounded-3xl sm:text-[28px]"
                 onClick={handleNextQuestion}
               >
                 Next Question
