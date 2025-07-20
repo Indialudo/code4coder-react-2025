@@ -107,21 +107,73 @@ export const generateWordDoc = (data) => {
           }),
 
           // Education Section
-          sectionTitle("EDUCATION"),
-          ...safeArray(data.education).flatMap((edu) => [
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: `${edu?.degree || ""} - ${edu?.institute || ""}`,
-                  bold: true,
-                }),
-              ],
-            }),
-            new Paragraph({
-              text: `${edu?.year || ""} | ${edu?.location || ""}`,
-              italics: true,
-            }),
-          ]),
+          // sectionTitle("EDUCATION"),
+          // ...safeArray(data.education).flatMap((edu) => [
+          //   new Paragraph({
+          //     children: [
+          //       new TextRun({
+          //         text: `${edu?.degree || ""} - ${edu?.institute || ""}`,
+          //         bold: true,
+          //       }),
+          //     ],
+          //   }),
+          //   new Paragraph({
+          //     text: `${edu?.year || ""} | ${edu?.location || ""}`,
+          //     italics: true,
+          //   }),
+          // ]),
+
+      // ACADEMIC QUALIFICATION section in Word Document
+sectionTitle("ACADEMIC QUALIFICATION"),
+new Table({
+  width: { size: 100, type: WidthType.PERCENTAGE },
+  rows: [
+    // Table Header Row — BOLD
+    new TableRow({
+      children: [
+        "Examination",
+        "Board/University",
+        "Institution",
+        "Year",
+        "Percentage/CGPA",
+      ].map(
+        (header) =>
+          new TableCell({
+            children: [
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: header,
+                    bold: true,
+                  }),
+                ],
+              }),
+            ],
+          })
+      ),
+    }),
+
+    // Education Data Rows
+    ...safeArray(data.education).map((edu) =>
+      new TableRow({
+        children: [
+          edu.examination || "",
+          edu.board || "",
+          edu.institute || "",
+          edu.year || "",
+          edu.percentage || "",
+        ].map(
+          (value) =>
+            new TableCell({
+              children: [new Paragraph(value)],
+            })
+        ),
+      })
+    ),
+  ],
+}),
+
+
 
           // Certifications
           data.certifications && sectionTitle("CERTIFICATIONS"),

@@ -26,30 +26,41 @@ const ResumeForm = () => {
   });
 
 
-  
-const [experience, setExperience] = useState([
-  {
-    jobTitle: "",
-    employer: "",
-    startDate: "",
-    endDate: "",
-    city: "",
-    description: ""
 
-  },
-]);
+  const [experience, setExperience] = useState([
+    {
+      jobTitle: "",
+      employer: "",
+      startDate: "",
+      endDate: "",
+      city: "",
+      description: ""
+
+    },
+  ]);
 
 
+
+  // const [educationList, setEducationList] = useState([
+  //   {
+  //     degree: "",
+  //     institute: "",
+  //     startDate: "",
+  //     endDate: "",
+  //     location: "",
+  //   },
+  // ]);
 
   const [educationList, setEducationList] = useState([
     {
-      degree: "",
+      examination: "",
+      board: "",
       institute: "",
-      startDate: "",
-      endDate: "",
-      location: "",
+      year: "",
+      percentage: "",
     },
   ]);
+
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -117,11 +128,13 @@ const [experience, setExperience] = useState([
       })),
 
       education: educationList.map((edu) => ({
-        degree: edu.degree,
+        examination: edu.examination,
+        board: edu.board,
         institute: edu.institute,
-        year: `${edu.startDate} – ${edu.endDate}`,
-        location: edu.location,
+        year: edu.year,
+        percentage: edu.percentage,
       })),
+
 
       achievements: formData.achievements
         .split("\n")
@@ -136,7 +149,7 @@ const [experience, setExperience] = useState([
         }),
     };
 
-    generateWordDoc(resumeData); 
+    generateWordDoc(resumeData);
   };
 
   return (
@@ -161,7 +174,7 @@ const [experience, setExperience] = useState([
         <input name="portfolio" placeholder="Portfolio URL (Optional)" onChange={handleFormChange} className="input border p-2" />
       </div>
 
-     <Summary summary={formData.summary} onChange={handleFormChange} />
+      <Summary summary={formData.summary} onChange={handleFormChange} />
 
       {/* skills */}
       <Skills
