@@ -19,7 +19,7 @@ import './App.css';
 
 function App() {
   const location = useLocation();
-  const hidePopupOnPaths = ['/course-registration-form','/certificates'];
+  const hidePopupOnPaths = ['/course-registration-form','/certificates','resume'];
   const shouldShowPopup = !hidePopupOnPaths.includes(location.pathname);
 
   return (

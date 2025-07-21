@@ -3,8 +3,8 @@ import React from 'react'
 const PersonalInfo = ({ handleFormChange }) => {
     return (
         <div>
-            <h2 className="text-3xl font-bold text-center text-gray-800 all-form-heading">Let’s start with your header</h2>
-            <p className="text-center font-bold text-gray-600 mt-2">
+            <h2 className="text-3xl font-bold text-gray-800 all-form-heading">Let’s start with your header</h2>
+            <p className=" mt-2 all-form-sub-title">
                 Include your full name and multiple ways for employers to reach you.
             </p>
             <div className="grid md:grid-cols-2 gap-4 mt-4">

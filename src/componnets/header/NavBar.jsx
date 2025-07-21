@@ -39,6 +39,7 @@ const Navbar = () => {
 
   const links = [
     { text: "Home", href: "/", Icon: FaHome },
+     { text: "Resume", href: "/resume", Icon: FaBook },
     { text: "Free Quiz", href: "/quiz", Icon: FaClipboardList },
     { text: "courses", href: "/courses", Icon: FaBook },
     { text: "placement", href: "/placement", Icon: FaBullseye },
