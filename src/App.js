@@ -15,6 +15,7 @@ import RegistrationFormPopup from './componnets/FullComponent/registrationForm/R
 import NotFoundPage from "./componnets/common/errorPage/NotFoundPage";
 import MainContent from "./componnets/FullComponent/cerificates/MainContent";
 import MainQuiz from "./quiz/QuizContainer/MainQuiz/MainQuiz";
+import './App.css'; 
 
 function App() {
   const location = useLocation();

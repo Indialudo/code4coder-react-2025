@@ -2,10 +2,18 @@
 .pacifico-font {
   font-family: 'Pacifico', cursive;
 }
-.ck-editor__editable_inline {
-  min-height: 120px;
-  border: 1px solid #d1d5db;
-  padding: 1rem;
-  background-color: white;
+
+.all-form-heading{
+  
 }
 
+.input-resume-border{
+    /* font-size: 1.6rem;
+    border-radius: 4px;
+    background-color: #f9fafb; */
+    border-color: silver;
+    /* padding: 8px 16px */
+}
+
+/* 
+; */

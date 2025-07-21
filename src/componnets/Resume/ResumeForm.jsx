@@ -4,8 +4,10 @@ import Education from "./PatternOneResume/Education/Education";
 import Experience from "./PatternOneResume/experience/Experience";
 import Skills from "./PatternOneResume/skills/Skill";
 import Summary from "./PatternOneResume/summary/Summary";
+import PersonalInfo from "./PatternOneResume/personalInfo/PersonalInfo";
 
 const ResumeForm = () => {
+  const [currentStep, setCurrentStep] = useState(1); // Step state
   const [formData, setFormData] = useState({
     fullName: "",
     jobTitle: "",
@@ -25,8 +27,6 @@ const ResumeForm = () => {
     nationality: "",
   });
 
-
-
   const [experience, setExperience] = useState([
     {
       jobTitle: "",
@@ -34,22 +34,9 @@ const ResumeForm = () => {
       startDate: "",
       endDate: "",
       city: "",
-      description: ""
-
+      description: "",
     },
   ]);
-
-
-
-  // const [educationList, setEducationList] = useState([
-  //   {
-  //     degree: "",
-  //     institute: "",
-  //     startDate: "",
-  //     endDate: "",
-  //     location: "",
-  //   },
-  // ]);
 
   const [educationList, setEducationList] = useState([
     {
@@ -60,7 +47,6 @@ const ResumeForm = () => {
       percentage: "",
     },
   ]);
-
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -81,7 +67,7 @@ const ResumeForm = () => {
         startDate: "",
         endDate: "",
         city: "",
-        description: ""
+        description: "",
       },
     ]);
   };
@@ -135,7 +121,6 @@ const ResumeForm = () => {
         percentage: edu.percentage,
       })),
 
-
       achievements: formData.achievements
         .split("\n")
         .map((a) => a.trim())
@@ -152,94 +137,91 @@ const ResumeForm = () => {
     generateWordDoc(resumeData);
   };
 
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
   return (
-    <form
-      className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md space-y-6"
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleResumeSubmit();
-      }}
-    >
-      <h2 className="text-3xl font-bold text-center text-gray-800">
-        Resume Builder
-      </h2>
+    <div >
+      <form
+        className="bg-white shadow-md rounded-md "
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleResumeSubmit();
+        }}
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <input name="fullName" placeholder="Full Name" onChange={handleFormChange} className="input border p-2" />
-        <input name="jobTitle" placeholder="Job Title" onChange={handleFormChange} className="input border p-2" />
-        <input name="contact" placeholder="Contact Number" onChange={handleFormChange} className="input border p-2" />
-        <input name="email" placeholder="Email" onChange={handleFormChange} className="input border p-2" />
-        <input name="linkedIn" placeholder="LinkedIn URL (Optional)" onChange={handleFormChange} className="input border p-2" />
-      </div>
-
-      <Summary summary={formData.summary} onChange={handleFormChange} />
-
-      {/* skills */}
-      <Skills
-        skills={formData.skills}
-        onSkillsChange={handleFormChange}
-      />
-
-
-      {/* Work Experience */}
-      <Experience
-        experience={experience}
-        handleExperienceChange={handleExperienceChange}
-        addExperience={addExperience}
-        removeExperience={removeExperience}
-      />
-      <textarea
-        name="projects"
-        rows="4"
-        placeholder="Projects"
-        onChange={handleFormChange}
-        className="textarea w-full border p-2"
-      />
-
-      {/* Education */}
-      <Education
-        educationList={educationList}
-        handleEducationChange={handleEducationChange}
-        addEducation={addEducation}
-        removeEducation={removeEducation}
-      />
-
-      <textarea
-        name="certifications"
-        rows="2"
-        placeholder="Certifications"
-        onChange={handleFormChange}
-        className="textarea w-full border p-2"
-      />
-
-      <textarea
-        name="achievements"
-        rows="3"
-        placeholder={`Achievements (one per line):\nWon Hackathon 2022\nGoogle Code Jam finalist`}
-        onChange={handleFormChange}
-        className="textarea w-full border p-2"
-      />
-
-      <input
-        name="languages"
-        placeholder="Languages (e.g., English - Native, Hindi - Fluent)"
-        onChange={handleFormChange}
-        className="input w-full border p-2"
-      />
-
-      <div className="grid md:grid-cols-3 gap-4">
-        <input name="dob" placeholder="Date of Birth" onChange={handleFormChange} className="input border p-2" />
-        <input name="address" placeholder="Address" onChange={handleFormChange} className="input border p-2" />
-        <input name="nationality" placeholder="Nationality" onChange={handleFormChange} className="input border p-2" />
-      </div>
-
-      <button
-        type="submit"
-        className="mx-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md transition block"
+        style={{ height: "100vh" }}
       >
-        Generate Resume
-      </button>
-    </form>
+
+        <div className="max-w-4xl mx-auto p-6 space-y-6">
+          {/* Step 1: Personal Information */}
+          {currentStep === 1 && (
+            <PersonalInfo handleFormChange={handleFormChange} />
+          )}
+
+          {/* Step 2: Summary */}
+          {currentStep === 2 && <Summary summary={formData.summary} onChange={handleFormChange} />}
+
+          {/* Step 3: Skills */}
+          {currentStep === 3 && <Skills skills={formData.skills} onSkillsChange={handleFormChange} />}
+
+          {/* Step 4: Experience */}
+          {currentStep === 4 && (
+            <Experience
+              experience={experience}
+              handleExperienceChange={handleExperienceChange}
+              addExperience={addExperience}
+              removeExperience={removeExperience}
+            />
+          )}
+
+          {/* Step 5: Education */}
+          {currentStep === 5 && (
+            <Education
+              educationList={educationList}
+              handleEducationChange={handleEducationChange}
+              addEducation={addEducation}
+              removeEducation={removeEducation}
+            />
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between">
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={prevStep}
+                className="bg-gray-600 text-white font-semibold py-2 px-6 rounded-md"
+              >
+                Previous
+              </button>
+            )}
+            {currentStep < 5 ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                className="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md"
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md"
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </div>
+
+      </form>
+    </div>
+
   );
 };
 
