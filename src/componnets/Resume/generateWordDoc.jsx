@@ -105,8 +105,6 @@ export const generateWordDoc = (data) => {
             alignment: AlignmentType.LEFT,
           }),
 
-
-
           // Profile Summary
           data.summary && sectionTitle("PROFILE SUMMARY"),
           data.summary && new Paragraph({

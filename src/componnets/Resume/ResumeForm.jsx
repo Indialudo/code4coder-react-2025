@@ -26,18 +26,18 @@ const ResumeForm = () => {
   });
 
 
-  
-const [experience, setExperience] = useState([
-  {
-    jobTitle: "",
-    employer: "",
-    startDate: "",
-    endDate: "",
-    city: "",
-    description: ""
 
-  },
-]);
+  const [experience, setExperience] = useState([
+    {
+      jobTitle: "",
+      employer: "",
+      startDate: "",
+      endDate: "",
+      city: "",
+      description: ""
+
+    },
+  ]);
 
 
 
@@ -52,14 +52,14 @@ const [experience, setExperience] = useState([
   // ]);
 
   const [educationList, setEducationList] = useState([
-  {
-    examination: "",
-    board: "",
-    institute: "",
-    year: "",
-    percentage: "",
-  },
-]);
+    {
+      examination: "",
+      board: "",
+      institute: "",
+      year: "",
+      percentage: "",
+    },
+  ]);
 
 
   const handleFormChange = (e) => {
@@ -127,13 +127,13 @@ const [experience, setExperience] = useState([
           .filter(Boolean),
       })),
 
-     education: educationList.map((edu) => ({
-  examination: edu.examination,
-  board: edu.board,
-  institute: edu.institute,
-  year: edu.year,
-  percentage: edu.percentage,
-})),
+      education: educationList.map((edu) => ({
+        examination: edu.examination,
+        board: edu.board,
+        institute: edu.institute,
+        year: edu.year,
+        percentage: edu.percentage,
+      })),
 
 
       achievements: formData.achievements
@@ -149,7 +149,7 @@ const [experience, setExperience] = useState([
         }),
     };
 
-    generateWordDoc(resumeData); 
+    generateWordDoc(resumeData);
   };
 
   return (
@@ -172,7 +172,7 @@ const [experience, setExperience] = useState([
         <input name="linkedIn" placeholder="LinkedIn URL (Optional)" onChange={handleFormChange} className="input border p-2" />
       </div>
 
-     <Summary summary={formData.summary} onChange={handleFormChange} />
+      <Summary summary={formData.summary} onChange={handleFormChange} />
 
       {/* skills */}
       <Skills
@@ -235,7 +235,7 @@ const [experience, setExperience] = useState([
 
       <button
         type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
+        className="mx-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md transition block"
       >
         Generate Resume
       </button>
