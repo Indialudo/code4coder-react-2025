@@ -27,51 +27,97 @@ export const generateWordDoc = (data) => {
       spacing: { after: 80 },
     });
 
-  const safeArray = (arr) => Array.isArray(arr) ? arr : [];
+
+
+
+  const safeArray = (arr) => (Array.isArray(arr) ? arr : []);
 
   const doc = new Document({
     sections: [
       {
         properties: {},
         children: [
-          // Header
+          // -- Header: Name
           new Paragraph({
-            text: data.fullName || "Your Name",
-            heading: HeadingLevel.TITLE,
-            alignment: AlignmentType.CENTER,
-            spacing: { after: 100 },
-          }),
-          new Paragraph({
-            text: data.jobTitle || "",
-            alignment: AlignmentType.CENTER,
-            spacing: { after: 200 },
-          }),
-
-          // Contact Table
-          new Table({
-            width: { size: 100, type: WidthType.PERCENTAGE },
-            rows: [
-              new TableRow({
-                children: [
-                  new TableCell({
-                    children: [new Paragraph(data.contact || "Phone")],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph(data.email || "Email")],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph(data.linkedIn || "LinkedIn")],
-                  }),
-                ],
+            children: [
+              new TextRun({
+                text: data.fullName?.toUpperCase() || "YOUR NAME",
+                bold: true,
+                size: 32,
               }),
             ],
+            alignment: AlignmentType.LEFT,
+
           }),
+
+          // -- Job Title
+          new Paragraph({
+            text: data.jobTitle || "Job Title",
+            alignment: AlignmentType.LEFT,
+
+          }),
+
+          // Personal Info Section (DOB, Email, Contact, etc. with bold for DOB, Email, and Contact)
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `DOB: `,
+                bold: true,
+              }),
+              new TextRun({
+                text: `${data.dob || "DD-MMM-YYYY"}`,
+              }),
+              new TextRun({
+                text: ` | Email: `,
+                bold: true,
+              }),
+              new TextRun({
+                text: `${data.email || "example@example.com"}`,
+              }),
+              new TextRun({
+                text: ` | Contact: `,
+                bold: true,
+              }),
+              new TextRun({
+                text: `${data.contact || "+91 0000000000"}`,
+              }),
+            ],
+            alignment: AlignmentType.LEFT,
+
+          }),
+
+
+          // Personal Info Section (LinkedIn, GitHub, Portfolio with clickable links)
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `LinkedIn: `,
+                bold: true,
+              }),
+              new TextRun({
+                text: `${data.linkedIn || "https://linkedin.com/in/username"}`,
+                hyperlink: data.linkedIn || "https://linkedin.com/in/username",  // Make it a clickable link
+                color: "0000FF",  // Blue color for the link
+                underline: true,  // Underline to make it look like a link
+              }),
+
+            ],
+            alignment: AlignmentType.LEFT,
+          }),
+
+
 
           // Profile Summary
           data.summary && sectionTitle("PROFILE SUMMARY"),
           data.summary && new Paragraph({
             text: data.summary,
             spacing: { after: 200 },
+          }),
+
+          // Skills
+          sectionTitle("SKILLS"),
+          new Paragraph({
+            text: safeArray(data.skills).join(", "),
           }),
 
           // Experience Section
@@ -123,55 +169,55 @@ export const generateWordDoc = (data) => {
           //   }),
           // ]),
 
-      // ACADEMIC QUALIFICATION section in Word Document
-sectionTitle("ACADEMIC QUALIFICATION"),
-new Table({
-  width: { size: 100, type: WidthType.PERCENTAGE },
-  rows: [
-    // Table Header Row — BOLD
-    new TableRow({
-      children: [
-        "Examination",
-        "Board/University",
-        "Institution",
-        "Year",
-        "Percentage/CGPA",
-      ].map(
-        (header) =>
-          new TableCell({
-            children: [
-              new Paragraph({
+          // ACADEMIC QUALIFICATION section in Word Document
+          sectionTitle("ACADEMIC QUALIFICATION"),
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: [
+              // Table Header Row — BOLD
+              new TableRow({
                 children: [
-                  new TextRun({
-                    text: header,
-                    bold: true,
-                  }),
-                ],
+                  "Examination",
+                  "Board/University",
+                  "Institution",
+                  "Year",
+                  "Percentage/CGPA",
+                ].map(
+                  (header) =>
+                    new TableCell({
+                      children: [
+                        new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: header,
+                              bold: true,
+                            }),
+                          ],
+                        }),
+                      ],
+                    })
+                ),
               }),
-            ],
-          })
-      ),
-    }),
 
-    // Education Data Rows
-    ...safeArray(data.education).map((edu) =>
-      new TableRow({
-        children: [
-          edu.examination || "",
-          edu.board || "",
-          edu.institute || "",
-          edu.year || "",
-          edu.percentage || "",
-        ].map(
-          (value) =>
-            new TableCell({
-              children: [new Paragraph(value)],
-            })
-        ),
-      })
-    ),
-  ],
-}),
+              // Education Data Rows
+              ...safeArray(data.education).map((edu) =>
+                new TableRow({
+                  children: [
+                    edu.examination || "",
+                    edu.board || "",
+                    edu.institute || "",
+                    edu.year || "",
+                    edu.percentage || "",
+                  ].map(
+                    (value) =>
+                      new TableCell({
+                        children: [new Paragraph(value)],
+                      })
+                  ),
+                })
+              ),
+            ],
+          }),
 
 
 
@@ -186,11 +232,7 @@ new Table({
           sectionTitle("KEY ACHIEVEMENTS"),
           ...safeArray(data.achievements).map((item) => bulletPoint(item)),
 
-          // Skills
-          sectionTitle("SKILLS"),
-          new Paragraph({
-            text: safeArray(data.skills).join(", "),
-          }),
+
 
           // Languages
           sectionTitle("LANGUAGES"),

@@ -26,18 +26,18 @@ const ResumeForm = () => {
   });
 
 
+  
+const [experience, setExperience] = useState([
+  {
+    jobTitle: "",
+    employer: "",
+    startDate: "",
+    endDate: "",
+    city: "",
+    description: ""
 
-  const [experience, setExperience] = useState([
-    {
-      jobTitle: "",
-      employer: "",
-      startDate: "",
-      endDate: "",
-      city: "",
-      description: ""
-
-    },
-  ]);
+  },
+]);
 
 
 
@@ -52,14 +52,14 @@ const ResumeForm = () => {
   // ]);
 
   const [educationList, setEducationList] = useState([
-    {
-      examination: "",
-      board: "",
-      institute: "",
-      year: "",
-      percentage: "",
-    },
-  ]);
+  {
+    examination: "",
+    board: "",
+    institute: "",
+    year: "",
+    percentage: "",
+  },
+]);
 
 
   const handleFormChange = (e) => {
@@ -127,13 +127,13 @@ const ResumeForm = () => {
           .filter(Boolean),
       })),
 
-      education: educationList.map((edu) => ({
-        examination: edu.examination,
-        board: edu.board,
-        institute: edu.institute,
-        year: edu.year,
-        percentage: edu.percentage,
-      })),
+     education: educationList.map((edu) => ({
+  examination: edu.examination,
+  board: edu.board,
+  institute: edu.institute,
+  year: edu.year,
+  percentage: edu.percentage,
+})),
 
 
       achievements: formData.achievements
@@ -149,7 +149,7 @@ const ResumeForm = () => {
         }),
     };
 
-    generateWordDoc(resumeData);
+    generateWordDoc(resumeData); 
   };
 
   return (
@@ -169,12 +169,10 @@ const ResumeForm = () => {
         <input name="jobTitle" placeholder="Job Title" onChange={handleFormChange} className="input border p-2" />
         <input name="contact" placeholder="Contact Number" onChange={handleFormChange} className="input border p-2" />
         <input name="email" placeholder="Email" onChange={handleFormChange} className="input border p-2" />
-        <input name="linkedIn" placeholder="LinkedIn URL" onChange={handleFormChange} className="input border p-2" />
-        <input name="github" placeholder="GitHub URL" onChange={handleFormChange} className="input border p-2" />
-        <input name="portfolio" placeholder="Portfolio URL (Optional)" onChange={handleFormChange} className="input border p-2" />
+        <input name="linkedIn" placeholder="LinkedIn URL (Optional)" onChange={handleFormChange} className="input border p-2" />
       </div>
 
-      <Summary summary={formData.summary} onChange={handleFormChange} />
+     <Summary summary={formData.summary} onChange={handleFormChange} />
 
       {/* skills */}
       <Skills

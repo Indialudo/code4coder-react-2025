@@ -44,7 +44,7 @@ const Education = ({
           <div className="grid md:grid-cols-2 gap-3">
             <input
               type="text"
-              placeholder="Year (e.g., 2019)"
+              placeholder="Passout Year (e.g., 2019)"
               value={edu.year}
               onChange={(e) =>
                 handleEducationChange(index, "year", e.target.value)
