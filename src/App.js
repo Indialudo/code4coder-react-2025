@@ -16,10 +16,12 @@ import NotFoundPage from "./componnets/common/errorPage/NotFoundPage";
 import MainContent from "./componnets/FullComponent/cerificates/MainContent";
 import MainQuiz from "./quiz/QuizContainer/MainQuiz/MainQuiz";
 import './App.css'; 
+import ResumeMain from "./componnets/Resume/ResumeMain";
+import ChooseResumePattern from "./componnets/Resume/ChooseResumePattern/ChooseResumePattern";
 
 function App() {
   const location = useLocation();
-  const hidePopupOnPaths = ['/course-registration-form','/certificates','resume'];
+  const hidePopupOnPaths = ['/course-registration-form','/certificates','r'];
   const shouldShowPopup = !hidePopupOnPaths.includes(location.pathname);
 
   return (
@@ -39,9 +41,10 @@ function App() {
         <Route path="/link/privacy-policy" element={<PrivacyAndPolicy />} />
         <Route path="/link/about-us" element={<AboutUs />} />
         <Route path="/course/:slug" element={<Course />} />
-        <Route path="/resume" element={<ResumeForm />} />
+        <Route path="/resume" element={<ResumeMain />} />
+        <Route path="/resume-pattern" element={<ChooseResumePattern />} />
+        <Route path="/create-resume" element={<ResumeForm />} />
         <Route path="/certificates" element={<MainContent />} />
-
          <Route path="/quiz" element={<MainQuiz />} />
          <Route path="*" element={<NotFoundPage />} />
       </Routes>

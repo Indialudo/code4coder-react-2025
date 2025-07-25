@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "font-awesome/css/font-awesome.min.css"; // Ensure this is imported
+import "font-awesome/css/font-awesome.min.css";
 
 const Experience = ({
   experience,
@@ -15,17 +15,23 @@ const Experience = ({
     const startDate = new Date(experience[index].startDate);
     if (date && date < startDate) {
       setEndDateError("End date cannot be before start date.");
-      return; // Prevent updating the end date if it's earlier than the start date
+      return;
     }
-    setEndDateError(""); // Clear error if the date is valid
+    setEndDateError("");
     handleExperienceChange(index, "endDate", date);
   };
 
   return (
-    <div className="space-y-6">
-      <h3 className="text-xl font-semibold">Work Experience</h3>
+    <div className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-6 rounded-lg shadow-lg space-y-6">
+      <h3 className="text-2xl font-bold text-center text-indigo-700 flex items-center justify-center gap-2">
+        <span className="text-yellow-500">★</span> Work Experience <span className="text-yellow-500">★</span>
+      </h3>
+
       {experience.map((exp, index) => (
-        <div key={index} className="border p-4 rounded space-y-3 shadow-sm">
+        <div
+          key={index}
+          className="bg-white border border-indigo-200 p-4 rounded-xl shadow-md space-y-4 transition duration-300 hover:shadow-lg"
+        >
           <div className="grid md:grid-cols-2 gap-3">
             <input
               type="text"
@@ -34,7 +40,7 @@ const Experience = ({
               onChange={(e) =>
                 handleExperienceChange(index, "jobTitle", e.target.value)
               }
-              className="input-field p-2 border rounded w-full"
+              className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
             <input
               type="text"
@@ -43,58 +49,35 @@ const Experience = ({
               onChange={(e) =>
                 handleExperienceChange(index, "employer", e.target.value)
               }
-              className="input-field p-2 border rounded w-full"
+              className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
 
           <div className="grid md:grid-cols-2 gap-3">
-            {/* Ensure DatePicker container takes full width */}
             <div className="relative">
               <DatePicker
                 selected={exp.startDate ? new Date(exp.startDate) : null}
                 onChange={(date) =>
                   handleExperienceChange(index, "startDate", date)
                 }
-                className="p-2 border rounded pl-10 cursor-pointer"
+                className="p-3 border border-gray-300 rounded-lg w-full pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 placeholderText="Start Date"
                 dateFormat="dd/MM/yyyy"
-                popperModifiers={{
-                  preventOverflow: {
-                    enabled: true,
-                    boundariesElement: "viewport",
-                  },
-                }}
               />
-              <i
-                className="fa fa-calendar absolute top-1/2 left-2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-                onClick={(e) => e.stopPropagation()}
-              />
+              <i className="fa fa-calendar absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
             </div>
-            <div className="relative ">
+
+            <div className="relative">
               <DatePicker
                 selected={exp.endDate ? new Date(exp.endDate) : null}
                 onChange={(date) => handleEndDateChange(index, date)}
-                className="p-2 border rounded pl-10 cursor-pointer"
+                className="p-3 border border-gray-300 rounded-lg w-full pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 placeholderText="End Date"
                 dateFormat="dd/MM/yyyy"
-                popperModifiers={{
-                  preventOverflow: {
-                    enabled: true,
-                    boundariesElement: "viewport",
-                  },
-                }}
-                showFullMonthYearPicker
               />
-              <i
-                className="fa fa-calendar absolute top-1/2 left-2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-                onClick={(e) => e.stopPropagation()}
-              />
-              {/* Error message below the input with red color */}
+              <i className="fa fa-calendar absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
               {endDateError && (
-                <div
-                  style={{ color: "red" }}
-                  className="text-red-500 text-sm mt-1 absolute left-0 bottom-[-18px]"
-                >
+                <div className="text-red-500 text-sm mt-1 absolute left-0 bottom-[-18px]">
                   {endDateError}
                 </div>
               )}
@@ -108,7 +91,7 @@ const Experience = ({
             onChange={(e) =>
               handleExperienceChange(index, "city", e.target.value)
             }
-            className="input-field p-2 border rounded w-full"
+            className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
 
           <textarea
@@ -118,27 +101,30 @@ const Experience = ({
               handleExperienceChange(index, "description", e.target.value)
             }
             rows={4}
-            className="input-field p-2 border rounded w-full"
+            className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
 
           <div className="text-right">
             <button
               onClick={() => removeExperience(index)}
               type="button"
-              className="text-red-500 hover:underline"
+              className="text-red-600 hover:underline text-sm font-medium"
             >
-              Remove
+              ✖ Remove
             </button>
           </div>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={addExperience}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        + Add Experience
-      </button>
+
+      <div className="text-center">
+        <button
+          type="button"
+          onClick={addExperience}
+          className="mt-4 bg-gradient-to-r from-indigo-500 to-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow hover:shadow-xl transition"
+        >
+          + Add Experience
+        </button>
+      </div>
     </div>
   );
 };

@@ -7,12 +7,15 @@ const Education = ({
   removeEducation,
 }) => {
   return (
-    <div className="space-y-6">
-      <h3 className="text-xl font-semibold">Education</h3>
+    <div className="resume-education-container bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-6 rounded-lg shadow-lg space-y-6">
+      <h3 className="text-2xl font-bold text-center text-indigo-700 flex items-center justify-center gap-2">
+        <span className="text-yellow-500">★</span> Education <span className="text-yellow-500">★</span>
+      </h3>
+
       {educationList.map((edu, index) => (
         <div
           key={index}
-          className="border p-4 rounded space-y-3 shadow-sm bg-gray-50"
+          className="resume-education-card bg-white border border-indigo-200 p-4 rounded-xl shadow-md space-y-4 transition duration-300 hover:shadow-lg"
         >
           <input
             type="text"
@@ -21,7 +24,7 @@ const Education = ({
             onChange={(e) =>
               handleEducationChange(index, "examination", e.target.value)
             }
-            className="p-2 border rounded w-full"
+            className="resume-input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
           <input
             type="text"
@@ -30,7 +33,7 @@ const Education = ({
             onChange={(e) =>
               handleEducationChange(index, "board", e.target.value)
             }
-            className="p-2 border rounded w-full"
+            className="resume-input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
           <input
             type="text"
@@ -39,9 +42,9 @@ const Education = ({
             onChange={(e) =>
               handleEducationChange(index, "institute", e.target.value)
             }
-            className="p-2 border rounded w-full"
+            className="resume-input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
-          <div className="grid md:grid-cols-2 gap-3">
+          <div className="grid md:grid-cols-2 gap-4">
             <input
               type="text"
               placeholder="Passout Year (e.g., 2019)"
@@ -49,7 +52,7 @@ const Education = ({
               onChange={(e) =>
                 handleEducationChange(index, "year", e.target.value)
               }
-              className="p-2 border rounded w-full"
+              className="resume-input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
             <input
               type="text"
@@ -58,27 +61,30 @@ const Education = ({
               onChange={(e) =>
                 handleEducationChange(index, "percentage", e.target.value)
               }
-              className="p-2 border rounded w-full"
+              className="resume-input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
           <div className="text-right">
             <button
               onClick={() => removeEducation(index)}
               type="button"
-              className="text-red-500 hover:underline"
+              className="text-red-600 hover:underline text-sm font-medium"
             >
-              Remove
+              ✖ Remove
             </button>
           </div>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={addEducation}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        + Add Education
-      </button>
+
+      <div className="text-center">
+        <button
+          type="button"
+          onClick={addEducation}
+          className="resume-add-button mt-4 bg-gradient-to-r from-indigo-500 to-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow hover:shadow-xl transition"
+        >
+          + Add Education
+        </button>
+      </div>
     </div>
   );
 };

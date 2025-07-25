@@ -5,6 +5,7 @@ import Experience from "./PatternOneResume/experience/Experience";
 import Skills from "./PatternOneResume/skills/Skill";
 import Summary from "./PatternOneResume/summary/Summary";
 import PersonalInfo from "./PatternOneResume/personalInfo/PersonalInfo";
+import AdditionalInfo from "./PatternOneResume/AdditionalInfo/AdditionalInfo";
 
 const ResumeForm = () => {
   const [currentStep, setCurrentStep] = useState(1); // Step state
@@ -137,8 +138,12 @@ const ResumeForm = () => {
     generateWordDoc(resumeData);
   };
 
+  // const nextStep = () => {
+  //   setCurrentStep(currentStep + 1);
+  // };
+
   const nextStep = () => {
-    setCurrentStep(currentStep + 1);
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, 6));
   };
 
   const prevStep = () => {
@@ -189,6 +194,16 @@ const ResumeForm = () => {
             />
           )}
 
+
+          {currentStep === 6 && (
+            <AdditionalInfo
+              formData={formData}
+              handleFormChange={handleFormChange}
+            />
+          )}
+
+
+
           {/* Navigation Buttons */}
           <div className="flex justify-between">
             {currentStep > 1 && (
@@ -200,7 +215,7 @@ const ResumeForm = () => {
                 Previous
               </button>
             )}
-            {currentStep < 5 ? (
+            {currentStep < 6 ? (
               <button
                 type="button"
                 onClick={nextStep}
@@ -217,6 +232,7 @@ const ResumeForm = () => {
               </button>
             )}
           </div>
+
         </div>
 
       </form>
