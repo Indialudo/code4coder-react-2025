@@ -39,13 +39,14 @@ const Navbar = () => {
 
   const links = [
     { text: "Home", href: "/", Icon: FaHome },
-     { text: "Resume", href: "/resume", Icon: FaBook },
-    { text: "Free Quiz", href: "/quiz", Icon: FaClipboardList },
+    //  { text: "Resume", href: "/resume", Icon: FaBook },
+    // { text: "Free Quiz", href: "/quiz", Icon: FaClipboardList },
     { text: "courses", href: "/courses", Icon: FaBook },
     { text: "placement", href: "/placement", Icon: FaBullseye },
     { text: "interview", href: "/interview", Icon: FaMicrophoneAlt },
     { text: "internship", href: "/internship", Icon: FaLaptopCode },
     { text: "Certificates", href: "/certificates", Icon: FaCertificate },
+    // { text: "branding", href: "/branding", Icon: FaCertificate },
     // { text: "careers", href: "/careers", Icon: FaBriefcase },
     // { text: "certificates", href: "/certificates", Icon: GrCertificate },
   ];

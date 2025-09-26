@@ -18,6 +18,8 @@ import MainQuiz from "./quiz/QuizContainer/MainQuiz/MainQuiz";
 import './App.css'; 
 import ResumeMain from "./componnets/Resume/ResumeMain";
 import ChooseResumePattern from "./componnets/Resume/ChooseResumePattern/ChooseResumePattern";
+import MainBranding from './componnets/adsBranding/MainBranding'
+
 
 function App() {
   const location = useLocation();
@@ -46,6 +48,7 @@ function App() {
         <Route path="/create-resume" element={<ResumeForm />} />
         <Route path="/certificates" element={<MainContent />} />
          <Route path="/quiz" element={<MainQuiz />} />
+           <Route path="/branding" element={<MainBranding />} />
          <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
