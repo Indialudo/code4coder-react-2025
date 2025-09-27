@@ -110,7 +110,7 @@ export default function Code4CoderTest() {
                                 <h2 className="text-xl font-bold mb-4">Pay ₹49 to Start Test</h2>
                                 <p className="mb-4">Scan or click below to pay</p>
                                 <QRCode
-                                    value="upi://pay?pa=7991152659@ybl&pn=Code4Coder&am=1&cu=INR"
+                                    value="upi://pay?pa=7991152659@ybl&pn=Code4Coder&am=49&cu=INR"
                                     size={200}
                                 />
 
