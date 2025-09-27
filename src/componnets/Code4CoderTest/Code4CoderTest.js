@@ -1,253 +1,371 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
-import { Link } from "react-router-dom";
-import { FaWhatsapp } from "react-icons/fa";
-import { IoIosArrowForward, IoMdMail } from "react-icons/io";
-import { FaLocationDot } from "react-icons/fa6";
-import { IoCall } from "react-icons/io5";
 
-// Dummy questions (replace with 30)
-const questions = [
-    {
-        id: 1,
-        question: "Which hook is used to manage state in React?",
-        options: ["useEffect", "useState", "useReducer", "useMemo"],
-        answer: 1,
-    },
-    {
-        id: 2,
-        question: "What does '===' mean in JavaScript?",
-        options: ["Assignment", "Loose equality", "Strict equality", "None"],
-        answer: 2,
-    },
-    // TODO: Add up to 30 questions
-];
+import { questions } from "./testData";
+import TestFooter from "./TestFooter";
+import Submission from "./Submission";
 
 export default function Code4CoderTest() {
-    const [stage, setStage] = useState("intro"); // intro | test | done
+  const [stage, setStage] = useState("intro"); // intro | verifying | paymentSuccess | test | done
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    location: "",
+  });
+  const [showPayment, setShowPayment] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [answers, setAnswers] = useState({});
 
+  // UTR related state
+  const [utr, setUtr] = useState("");
+  const [utrError, setUtrError] = useState("");
 
-    const [user, setUser] = useState({
-        name: "",
-        email: "",
-        mobile: "",
-        location: "",
-    });
-    const [showPayment, setShowPayment] = useState(false);
-    const [current, setCurrent] = useState(0);
-    const [answers, setAnswers] = useState({});
+  // Test timer
+  const [timeLeft, setTimeLeft] = useState(30 * 60); // 35 minutes in seconds
 
-    // Handle form submit → show QR
-    const handleUserSubmit = (e) => {
+  // Sounds
+  const tickSound = new Audio(
+    "https://www.soundjay.com/button/beep-07.mp3"
+  );
+  const alertSound = new Audio(
+    "https://www.soundjay.com/button/beep-10.mp3"
+  );
+
+  // Anti-copy / screenshot state
+  const [restricted, setRestricted] = useState(false);
+
+  // Simple UPI QR
+  const upiValue = `upi://pay?pa=9608960535@ybl&pn=Code4Coder&am=49&cu=INR`;
+
+  // On form submit -> show payment popup
+  const handleUserSubmit = (e) => {
+    e.preventDefault();
+    setShowPayment(true);
+    setUtr("");
+    setUtrError("");
+  };
+
+  // Verify UTR (only accept "developer8085")
+  const handleVerifyUtr = () => {
+    if (utr.trim() !== "developer8085") {
+      setUtrError("❌ Invalid UTR! Please enter correct UTR.");
+      return;
+    }
+    setUtrError("");
+    setShowPayment(false);
+    setStage("verifying");
+
+    // simulate backend check
+    setTimeout(() => {
+      setStage("paymentSuccess");
+    }, 2000);
+  };
+
+  // Auto move to test after 5 seconds on success
+  useEffect(() => {
+    if (stage === "paymentSuccess") {
+      const timer = setTimeout(() => setStage("test"), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [stage]);
+
+  // Auto-submit timer for 35 minutes with live countdown & sound
+  useEffect(() => {
+    let interval;
+    if (stage === "test") {
+      interval = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            console.log("Auto-submitting answers:", answers);
+            alert("⏰ Time's up! Test submitted automatically.");
+            setStage("done");
+            return 0;
+          }
+
+          // Play tick sound every second
+          tickSound.play().catch((e) => {});
+
+          // Last 10 seconds alert sound
+          if (prev <= 10) {
+            alertSound.play().catch((e) => {});
+          }
+
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [stage, answers]);
+
+  const handleOption = (index) =>
+    setAnswers({ ...answers, [current]: index });
+
+  const handleManualSubmit = () => {
+    console.log("User submitted answers:", answers);
+    setStage("done");
+  };
+
+  // Format seconds to mm:ss
+  const formatTime = (sec) => {
+    const minutes = Math.floor(sec / 60);
+    const seconds = sec % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  // Anti-copy / screenshot functionality
+  useEffect(() => {
+    if (stage !== "test") return; // only active during test
+
+    const handleKeyDown = (e) => {
+      // Detect PrintScreen key
+      if (e.key === "PrintScreen") {
+        setRestricted(true);
+        navigator.clipboard.writeText(""); // Clear clipboard
+        setTimeout(() => setRestricted(false), 3000);
+      }
+
+      // Disable Ctrl/Cmd + C, S, P
+      if ((e.ctrlKey || e.metaKey) && ["c", "s", "p"].includes(e.key.toLowerCase())) {
         e.preventDefault();
-        setShowPayment(true);
+        setRestricted(true);
+        setTimeout(() => setRestricted(false), 3000);
+      }
     };
 
-    // After successful payment → close QR + start test
-    const handlePaymentSuccess = () => {
-        setShowPayment(false);
-        setStage("test");
+    const handleContextMenu = (e) => {
+      e.preventDefault(); // Disable right-click
+      setRestricted(true);
+      setTimeout(() => setRestricted(false), 3000);
     };
 
-    // Save user answer
-    const handleOption = (index) => {
-        setAnswers({ ...answers, [current]: index });
+    const handleSelectStart = (e) => e.preventDefault(); // Disable text selection
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("selectstart", handleSelectStart);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("selectstart", handleSelectStart);
     };
+  }, [stage]);
 
-    return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-r from-[#0b0b3e] to-black text-white">
-            {/* ------------------ INTRO SCREEN ------------------ */}
-            {stage === "intro" && (
-                <div className="flex flex-col items-center justify-center flex-1 p-6">
-                    <h1 className="text-3xl font-bold mb-6">Code4Coder Joining Test</h1>
-                    <form
-                        onSubmit={handleUserSubmit}
-                        className="bg-white text-black rounded-xl p-6 w-full max-w-md shadow-lg space-y-4"
-                    >
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            required
-                            className="w-full p-2 border rounded"
-                            onChange={(e) => setUser({ ...user, name: e.target.value })}
-                        />
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            required
-                            className="w-full p-2 border rounded"
-                            onChange={(e) => setUser({ ...user, email: e.target.value })}
-                        />
-                        <input
-                            type="tel"
-                            placeholder="Mobile Number"
-                            required
-                            className="w-full p-2 border rounded"
-                            onChange={(e) => setUser({ ...user, mobile: e.target.value })}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Location"
-                            required
-                            className="w-full p-2 border rounded"
-                            onChange={(e) => setUser({ ...user, location: e.target.value })}
-                        />
 
-                        <button
-                        style={{backgroundColor:"#080935"}}
-                            type="submit"
-                            className="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800"
-                        >
-                            Proceed
-                        </button>
-                    </form>
+  useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.key === "PrintScreen") {
+      alert("Screenshots are not allowed!");
+      navigator.clipboard.writeText(""); // Clear clipboard
+    }
+  };
+  window.addEventListener("keydown", handleKeyDown);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+}, []);
 
-                    {/* Payment Popup */}
-                    {/* Payment Popup */}
-                    {showPayment && stage === "intro" && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-                            <div className="bg-white p-6 rounded-xl w-96 text-center text-black">
-                                <h2 className="text-xl font-bold mb-4">Pay ₹49 to Start Test</h2>
-                                <p className="mb-4">Scan or click below to pay</p>
-                                <QRCode
-                                    value="upi://pay?pa=9608960535@ybl&pn=Code4Coder&am=49&cu=INR"
-                                    size={200}
-                                />
-
-                                <button
-                                    onClick={handlePaymentSuccess}
-                                    className="bg-green-700 text-white px-4 py-2 rounded mt-4"
-                                >
-                                    I Have Paid
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                </div>
-            )}
-
-            {/* ------------------ TEST SCREEN ------------------ */}
-            {stage === "test" && (
-                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gray-100 text-black">
-                    <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-2xl">
-                        <h2 className="text-xl font-bold mb-4">
-                            Q{current + 1}. {questions[current].question}
-                        </h2>
-                        <div className="space-y-2">
-                            {questions[current].options.map((opt, idx) => (
-                                <button
-                                    key={idx}
-                                    className={`w-full p-2 rounded border ${answers[current] === idx
-                                        ? "bg-green-700 text-white"
-                                        : "bg-gray-100"
-                                        }`}
-                                    onClick={() => handleOption(idx)}
-                                >
-                                    {opt}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className="flex justify-between mt-6">
-                            <button
-                                disabled={current === 0}
-                                onClick={() => setCurrent(current - 1)}
-                                className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-                            >
-                                Previous
-                            </button>
-                            {current < questions.length - 1 ? (
-                                <button
-                                    onClick={() => setCurrent(current + 1)}
-                                    className="px-4 py-2 bg-green-700 text-white rounded"
-                                >
-                                    Next
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => setStage("done")}
-                                    className="px-4 py-2 bg-green-700 text-white rounded"
-                                >
-                                    Submit
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* ------------------ COMPLETION SCREEN ------------------ */}
-            {stage === "done" && (
-                <div className="flex flex-col items-center justify-center flex-1 p-6">
-                    <h1 className="text-3xl font-bold mb-4">
-                        Thank you for completing the test 🎉
-                    </h1>
-                    <p className="mb-6">Your submission has been recorded.</p>
-                </div>
-            )}
-
-            {/* ------------------ FOOTER ------------------ */}
-            <footer className="body-font bg-gradient-to-r to-black from-[#0b0b3e] text-white">
-                <div className="container md:px-5 px-2 py-10 mx-auto max-w-screen-xl border-t border-gray-400">
-                    <div className="flex flex-wrap md:text-left text-center order-first ">
-                        <div className="lg:w-1/4 sm:w-1/2 w-full md:px-4">
-                            <h2 className="font-bold text-lg">Company</h2>
-                            <nav className="list-none mt-5 mb-10 space-y-2">
-                                <Link to="/link/about-us">
-                                    <li className="hover:tracking-widest cursor-pointer flex items-center gap-1">
-                                        <IoIosArrowForward /> About Us
-                                    </li>
-                                </Link>
-                                <Link to="/link/privacy-policy">
-                                    <li className="hover:tracking-widest cursor-pointer flex items-center gap-1">
-                                        <IoIosArrowForward /> Privacy Policy
-                                    </li>
-                                </Link>
-                                <Link to="/link/term-condition">
-                                    <li className="hover:tracking-widest cursor-pointer flex items-center gap-1">
-                                        <IoIosArrowForward /> Terms & Condition
-                                    </li>
-                                </Link>
-                            </nav>
-                        </div>
-
-                        <div className="lg:w-1/4 sm:w-1/2 w-full md:px-4">
-                            <h2 className="font-bold text-lg">Contact</h2>
-                            <nav className="list-none mt-5 mb-10 space-y-2">
-                                <li className="flex items-center gap-2">
-                                    <FaLocationDot /> India
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <IoCall /> 9341045976
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <IoMdMail /> info@code4coder.com
-                                </li>
-                            </nav>
-                        </div>
-
-                        <div className="lg:w-1/4 sm:w-1/2 w-full md:px-4">
-                            <h2 className="font-bold text-lg">Opening</h2>
-                            <nav className="list-none mt-5 mb-10">
-                                <li className="text-xl sm:text-2xl font-bold">24x7</li>
-                            </nav>
-                        </div>
-
-                        <Link
-                            to="https://wa.me/9341045976"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="lg:w-1/4 sm:w-1/2 w-full md:px-4"
-                        >
-                            <h2 className="font-bold text-lg">Enquire Now</h2>
-                            <button className="flex items-center justify-center gap-2 bg-green-700 text-white font-medium text-lg px-4 py-2 w-full rounded mt-4">
-                                <FaWhatsapp size={26} /> Enquire Now
-                            </button>
-                        </Link>
-                    </div>
-                </div>
-            </footer>
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-[#0b0b3e] to-black text-white">
+      {/* Restricted overlay */}
+      {restricted && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <p className="text-red-500 text-2xl font-bold">
+            🚫 Screenshot / Copy Restricted
+          </p>
         </div>
-    );
+      )}
+
+      {/* INTRO FORM */}
+      {stage === "intro" && (
+        <div className="flex flex-col items-center justify-center flex-1 p-6">
+          <h1 className="text-3xl font-bold mb-6">Code4Coder Joining Test</h1>
+          <form
+            onSubmit={handleUserSubmit}
+            className="bg-white text-black rounded-xl p-6 w-full max-w-md shadow-lg space-y-4"
+          >
+            <input
+              type="text"
+              placeholder="Name"
+              required
+              className="w-full p-2 border rounded"
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              className="w-full p-2 border rounded"
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+            />
+            <input
+              type="tel"
+              placeholder="Mobile Number"
+              required
+              className="w-full p-2 border rounded"
+              onChange={(e) => setUser({ ...user, mobile: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              required
+              className="w-full p-2 border rounded"
+              onChange={(e) => setUser({ ...user, location: e.target.value })}
+            />
+            <button
+              style={{ backgroundColor: "#080935" }}
+              type="submit"
+              className="w-full text-white py-2 rounded hover:bg-green-800"
+            >
+              Proceed
+            </button>
+          </form>
+
+          {showPayment && stage === "intro" && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
+              <div className="bg-white p-6 rounded-xl w-96 text-center text-black">
+                <h2 className="text-xl font-bold mb-2">Pay ₹49 to Start Test</h2>
+                <p className="mb-3">
+                  Scan the QR code with your UPI app and complete payment.
+                </p>
+                <div className="mb-3 flex justify-center">
+                  <QRCode value={upiValue} size={180} />
+                </div>
+                <p className="text-sm mb-2">
+                  After payment, enter the transaction UTR / Transaction ID
+                  below and click <b>Verify UTR</b>.
+                </p>
+                <input
+                  type="text"
+                  placeholder="Enter UTR"
+                  value={utr}
+                  onChange={(e) => setUtr(e.target.value)}
+                  className="w-full p-2 border rounded mt-3"
+                />
+                {utrError && (
+                  <p className="text-red-600 mt-2 text-sm">{utrError}</p>
+                )}
+                <div className="flex gap-2 justify-center mt-4">
+                  <button
+                    onClick={() => setShowPayment(false)}
+                    className="px-4 py-2 rounded border"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleVerifyUtr}
+                    className="px-4 py-2 rounded text-white"
+                    style={{ backgroundColor: "blue" }}
+                  >
+                    Verify UTR
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* VERIFYING */}
+      {stage === "verifying" && (
+        <div className="flex flex-col items-center justify-center flex-1 p-6">
+          <h1 className="text-2xl font-bold text-blue-400 mb-4">
+            🔄 Verifying your UTR...
+          </h1>
+          <p className="text-gray-300">Please wait a moment.</p>
+        </div>
+      )}
+
+      {/* PAYMENT SUCCESS */}
+      {stage === "paymentSuccess" && (
+        <div className="flex flex-col items-center justify-center flex-1 p-6">
+          <h1 className="text-3xl font-bold text-green-500 mb-4">
+            ✅ Payment Verified
+          </h1>
+          <p className="mb-4 text-lg">
+            Your UTR:{" "}
+            <span className="font-mono text-black bg-white px-2 rounded">
+              {utr}
+            </span>
+          </p>
+          <p className="text-gray-200 mb-6">
+            Your test will start in <b>5 seconds</b>...
+          </p>
+          <button
+            onClick={() => setStage("test")}
+            className="bg-green-700 text-white px-4 py-2 rounded"
+          >
+            Start Test Now
+          </button>
+        </div>
+      )}
+
+      {/* TEST */}
+      {stage === "test" && (
+        <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gray-100 text-black">
+          <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-2xl">
+            {/* Timer */}
+            <div className="text-right text-lg font-bold mb-4 text-red-600">
+              ⏱ Time Left: {formatTime(timeLeft)}
+            </div>
+
+            <h2 className="text-xl font-bold mb-4">
+              Q{current + 1}. {questions[current].question}
+            </h2>
+            <div className="space-y-2">
+              {questions[current].options.map((opt, idx) => (
+                <button
+                  key={idx}
+                  className={`w-full p-2 rounded border ${
+                    answers[current] === idx
+                      ? "bg-green-700 text-white"
+                      : "bg-gray-100"
+                  }`}
+                  onClick={() => handleOption(idx)}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+            <div className="flex justify-between mt-6">
+              <button
+                disabled={current === 0}
+                onClick={() => setCurrent(current - 1)}
+                className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+              >
+                Previous
+              </button>
+              {current < questions.length - 1 ? (
+                <button
+                  onClick={() => setCurrent(current + 1)}
+                  className="px-4 py-2 bg-green-700 text-white rounded"
+                  style={{ backgroundColor: "#080935" }}
+                >
+                  Next
+                </button>
+              ) : (
+                <button
+                  onClick={handleManualSubmit}
+                  className="px-4 py-2 bg-green-700 text-white rounded"
+                   style={{ backgroundColor: "red" }}
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DONE */}
+      {stage === "done" && (
+        <Submission/>
+      )}
+
+      {/* FOOTER */}
+     <TestFooter/>
+    </div>
+  );
 }
