@@ -19,18 +19,19 @@ import './App.css';
 import ResumeMain from "./componnets/Resume/ResumeMain";
 import ChooseResumePattern from "./componnets/Resume/ChooseResumePattern/ChooseResumePattern";
 import MainBranding from './componnets/adsBranding/MainBranding'
+import Code4CoderTest from "./componnets/Code4CoderTest/Code4CoderTest";
 
 
 function App() {
   const location = useLocation();
-  const hidePopupOnPaths = ['/course-registration-form','/certificates','r'];
-  const shouldShowPopup = !hidePopupOnPaths.includes(location.pathname);
+  // const hidePopupOnPaths = ['/course-registration-form','/certificates','r'];
+  // const shouldShowPopup = !hidePopupOnPaths.includes(location.pathname);
 
   return (
     <>
     
 
-      {shouldShowPopup && <RegistrationFormPopup />}
+      {/* {shouldShowPopup && <RegistrationFormPopup />} */}
 
       <Routes>
         <Route path="/" element={<FullComponent />} />
@@ -49,6 +50,7 @@ function App() {
         <Route path="/certificates" element={<MainContent />} />
          <Route path="/quiz" element={<MainQuiz />} />
            <Route path="/branding" element={<MainBranding />} />
+           <Route path="/test" element={<Code4CoderTest />} />
          <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
