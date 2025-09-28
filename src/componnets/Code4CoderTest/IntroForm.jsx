@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import QRCode from "react-qr-code";
+import axios from "axios";
+import moment from "moment";
 
 export default function IntroForm({
   user,
@@ -12,19 +14,44 @@ export default function IntroForm({
   setUtrError,
   setStage,
 }) {
-  const upiValue = `upi://pay?pa=9608960535@ybl&pn=Code4Coder&am=49&cu=INR`;
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Handle form submit → open payment popup
-  const handleUserSubmit = (e) => {
+  const upiValue = `upi://pay?pa=9608960535@ybl&pn=Code4Coder&am=49&cu=INR`;
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbzoI5cy7A5utQyhf-no4dNKEMSEH9virvLYsz5zpeHUvZ-sM1q-5AUY0Js-1kVDNweetQ/exec";
+
+  // Handle form submit → send to Google Sheet + open payment popup
+  const handleUserSubmit = async (e) => {
     e.preventDefault();
-    setShowPayment(true);
-    setUtr("");
-    setUtrError("");
+    setIsLoading(true);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("Name", user.name);
+    formDataToSend.append("Email", user.email);
+    formDataToSend.append("Mobile", user.mobile);
+    formDataToSend.append("Location", user.location);
+    formDataToSend.append("Time", moment().format("MM/DD h:mmA"));
+
+    try {
+      await axios.post(scriptURL, formDataToSend);
+      console.log("✅ Data submitted to Google Sheet");
+
+      // Clear form (optional)
+      setUser({ name: "", email: "", mobile: "", location: "" });
+
+      // Show payment popup
+      setShowPayment(true);
+      setUtr("");
+      setUtrError("");
+    } catch (error) {
+      console.error("❌ Error submitting to Google Sheet", error);
+      alert("Failed to save your data. Please try again.");
+    }
+
+    setIsLoading(false);
   };
 
   // Verify UTR
-  // Verify UTR (only accept "developer8085")
-  
   const handleVerifyUtr = () => {
     if (utr.trim() !== "developer8085") {
       setUtrError("❌ Invalid UTR! Please enter correct UTR.");
@@ -34,7 +61,6 @@ export default function IntroForm({
     setShowPayment(false);
     setStage("verifying");
 
-    // simulate backend check
     setTimeout(() => {
       setStage("paymentSuccess");
     }, 2000);
@@ -85,8 +111,9 @@ export default function IntroForm({
           style={{ backgroundColor: "#080935" }}
           type="submit"
           className="w-full text-white py-2 rounded hover:bg-green-800"
+          disabled={isLoading}
         >
-          Proceed
+          {isLoading ? "Proceeding..." : "Proceed"}
         </button>
       </form>
 
