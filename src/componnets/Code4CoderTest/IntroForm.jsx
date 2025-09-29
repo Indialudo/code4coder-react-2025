@@ -28,7 +28,7 @@ export default function IntroForm({
     const formDataToSend = new FormData();
     formDataToSend.append("Name", user.name);
     formDataToSend.append("Email", user.email);
-    formDataToSend.append("Mobile", user.mobile);
+    formDataToSend.append("Phone", user.Phone);
     formDataToSend.append("Location", user.location);
     formDataToSend.append("Time", moment().format("MM/DD h:mmA"));
 
@@ -37,7 +37,7 @@ export default function IntroForm({
       console.log("✅ Data submitted to Google Sheet");
 
       // Clear form (optional)
-      setUser({ name: "", email: "", mobile: "", location: "" });
+      setUser({ name: "", email: "", Phone: "", location: "" });
 
       // Show payment popup
       setShowPayment(true);
@@ -93,11 +93,11 @@ export default function IntroForm({
         />
         <input
           type="tel"
-          placeholder="Mobile Number"
+          placeholder="Phone Number"
           required
           className="w-full p-2 border rounded"
-          value={user.mobile}
-          onChange={(e) => setUser({ ...user, mobile: e.target.value })}
+          value={user.Phone}
+          onChange={(e) => setUser({ ...user, Phone: e.target.value })}
         />
         <input
           type="text"

@@ -12,7 +12,7 @@ export default function Code4CoderTest() {
     const [user, setUser] = useState({
         name: "",
         email: "",
-        mobile: "",
+        Phone: "",
         location: "",
     });
     const [showPayment, setShowPayment] = useState(false);
