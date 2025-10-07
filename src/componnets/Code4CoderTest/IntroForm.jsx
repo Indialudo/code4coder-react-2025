@@ -30,7 +30,9 @@ export default function IntroForm({
     formDataToSend.append("Email", user.email);
     formDataToSend.append("Phone", user.Phone);
     formDataToSend.append("Location", user.location);
-    formDataToSend.append("Time", moment().format("MM/DD h:mmA"));
+    formDataToSend.append("time", moment().format("MM/DD h:mmA"));
+    formDataToSend.append("Paid", "Paid");
+
 
     try {
       await axios.post(scriptURL, formDataToSend);
@@ -51,7 +53,7 @@ export default function IntroForm({
     setIsLoading(false);
   };
 
-  // Verify UTR
+  
   const handleVerifyUtr = () => {
     if (utr.trim() !== "developer8085") {
       setUtrError("❌ Invalid UTR! Please enter correct UTR.");
@@ -65,6 +67,10 @@ export default function IntroForm({
       setStage("paymentSuccess");
     }, 2000);
   };
+
+
+
+ 
 
   return (
     <div className="flex flex-col items-center justify-center flex-1 p-6">
