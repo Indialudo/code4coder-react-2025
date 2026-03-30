@@ -49,6 +49,7 @@ const Navbar = () => {
     // { text: "branding", href: "/branding", Icon: FaCertificate },
     // { text: "careers", href: "/careers", Icon: FaBriefcase },
     // { text: "certificates", href: "/certificates", Icon: GrCertificate },
+     // { text: "certificates", href: "/certificates", Icon: GrCertificate }, // { text: "certificates", href: "/certificates", Icon: GrCertificate },
   ];
 
   return (
